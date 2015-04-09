@@ -1,0 +1,23 @@
+This code was used to create the PVClust images and MDS plot in R. 
+
+summary(fc) #summary of the feature counts
+
+head(fc$counts)
+
+head(fc$annotation)
+
+library(pvclust)
+if(!exists("pvcl")){
+  pvcl <- pvclust(fc$counts)
+  
+  library(pvclust)
+pvcl <- pvclust(fc$counts)
+
+plot(pvcl)
+
+
+require(edgeR)
+condition <- as.factor(sapply(colnames(fc$counts),function(cn){ head(strsplit(cn,"_")[[1]],1)})) 
+condition <- relevel(condition,"WT")
+dge <- DGEList(fc$counts,group=condition)
+plotMDS(dge)
